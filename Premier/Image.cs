@@ -65,7 +65,7 @@ namespace Project
 
                 bmimage.set_message(message);
 
-                bmimage.hide_message();
+                bmimage.hide_message_better();
 
                 this.pictureBox1.Image = bmimage.get_image();
 

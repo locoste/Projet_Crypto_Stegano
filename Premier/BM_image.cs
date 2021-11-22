@@ -36,24 +36,63 @@ namespace Project
             }
         }
 
+        private void hide_position()
+        {
+            System.Drawing.Imaging.BitmapData bmpData = this.image.LockBits(new Rectangle(0, 0, this.image.Width, this.image.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite,
+            this.image.PixelFormat);
+
+            bmpData.Stride -= 1;
+
+            this.image.UnlockBits(bmpData);
+
+            List<int> position = this.get_position();
+
+            int x = this.image.Width - 1;
+            int y = 0;
+            Random rand = new Random();
+            for (int i = 2; i < position.Count; i++)
+            {
+                this.image.SetPixel(x, y, Color.FromArgb(position[i - 2], position[i - 1], position[i]));
+                y++;
+            }
+            if (position.Count % 3 == 1)
+            {
+                this.image.SetPixel(x, y, Color.FromArgb(position[position.Count], rand.Next(255), rand.Next(255)));
+                y++;
+            }
+            else if (position.Count % 3 == 2)
+            {
+                this.image.SetPixel(x, y, Color.FromArgb(position[position.Count - 1], position[position.Count], rand.Next(255)));
+                y++;
+            }
+            this.image.SetPixel(x, y, Color.FromArgb(Convert.ToInt32("E"), Convert.ToInt32("N"), Convert.ToInt32("D")));
+        }
+
         public void hide_message_better()
         {
             char[] charArr = this.message.get_message().ToCharArray();
             foreach(char lettre in charArr)
             {
-                
+                this.get_point_position(Convert.ToInt32(lettre));
             }
+            this.hide_position();
         }
 
         private void get_point_position(int lettre)
         {
-            for (int x = 0; x< this.image.Width; x++)
+            int offset = 0;
+            bool done = false;
+            while (!done)
             {
-                for (int y = 0; y < this.image.Height; y++)
+                for (int x = 0; x < this.image.Width; x++)
                 {
-                    if (this.image.GetPixel(x, y).R == lettre)
+                    for (int y = 0; y < this.image.Height; y++)
                     {
-                        this.message.set_position(x, y);
+                        if (this.image.GetPixel(x, y).R == lettre + offset)
+                        {
+                            this.message.set_position(x, y, offset);
+                            done = true;
+                        }
                     }
                 }
             }
@@ -61,15 +100,10 @@ namespace Project
 
         private void change_byte(int l1, int l2 = 0, int l3 = 0)
         {
-            int x = 1078 % this.image.Width + message.get_position().Count / 2;
+            int x = 1078 % this.image.Width + message.get_position().Count / 3;
             int y = 10;
             this.image.SetPixel(x, y, Color.FromArgb(l1, l2, l3));
-            this.message.set_position(x, y);
-        }
-
-        private void hide_position()
-        {
-
+            this.message.set_position(x, y, 0);
         }
 
         public List<int> get_position()
@@ -89,6 +123,20 @@ namespace Project
         public Bitmap get_image()
         {
             return this.image;
+        }
+
+        public string search_message_better()
+        {
+            Boolean done = false;
+            string message = "";
+            int x = this.image.Width - 1;
+            int y = 0;
+            while (!done)
+            {
+                // get pixel
+                this.image.GetPixel((int)this.image.GetPixel(x, y).R + (int)this.image.GetPixel(x, y).B, (int)this.image.GetPixel(x, y).G);
+            }
+            return message;
         }
     }
 }

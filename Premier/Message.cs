@@ -15,10 +15,11 @@ namespace Project
             position = new List<int>(0);
         }
 
-        public void set_position(int x, int y)
+        public void set_position(int x, int y, int offset)
         {
             this.position.Add(x);
             this.position.Add(y);
+            this.position.Add(offset);
         }
 
         public List<int> get_position()
