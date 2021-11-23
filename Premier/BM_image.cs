@@ -65,7 +65,7 @@ namespace Project
                 this.image.SetPixel(x, y, Color.FromArgb(position[position.Count - 1], position[position.Count], rand.Next(255)));
                 y++;
             }
-            this.image.SetPixel(x, y, Color.FromArgb(Convert.ToInt32("E"), Convert.ToInt32("N"), Convert.ToInt32("D")));
+            this.image.SetPixel(x, y, Color.FromArgb(Convert.ToInt32('E'), Convert.ToInt32('N'), Convert.ToInt32('D')));
         }
 
         public void hide_message_better()
@@ -93,6 +93,14 @@ namespace Project
                             this.message.set_position(x, y, offset);
                             done = true;
                         }
+                        if (done)
+                        {
+                            break;
+                        }
+                    }
+                    if (done)
+                    {
+                        break;
                     }
                 }
             }
@@ -134,7 +142,12 @@ namespace Project
             while (!done)
             {
                 // get pixel
-                this.image.GetPixel((int)this.image.GetPixel(x, y).R + (int)this.image.GetPixel(x, y).B, (int)this.image.GetPixel(x, y).G);
+                message += this.image.GetPixel((int)this.image.GetPixel(x, y).R, (int)this.image.GetPixel(x, y).G).R + +(int)this.image.GetPixel(x, y).B;
+                y++;
+                if (Convert.ToChar((int)this.image.GetPixel(x, y).R) == 'E' && Convert.ToChar((int)this.image.GetPixel(x, y).G) == 'N' && Convert.ToChar((int)this.image.GetPixel(x, y).B) == 'D')
+                {
+                    done = true;
+                }
             }
             return message;
         }

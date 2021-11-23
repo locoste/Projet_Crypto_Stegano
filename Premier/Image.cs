@@ -82,7 +82,7 @@ namespace Project
         {
             BM_image bmimage = new BM_image(new Bitmap(this.pictureBox1.Image));
 
-            string message = bmimage.search_message();
+            string message = bmimage.search_message_better();
 
             this.message.Text = message;
         }
