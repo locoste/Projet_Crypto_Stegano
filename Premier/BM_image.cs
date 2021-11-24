@@ -50,19 +50,9 @@ namespace Project
             int x = this.image.Width - 1;
             int y = 0;
             Random rand = new Random();
-            for (int i = 2; i < position.Count; i++)
+            for (int i = 2; i < position.Count; i+=3)
             {
                 this.image.SetPixel(x, y, Color.FromArgb(position[i - 2], position[i - 1], position[i]));
-                y++;
-            }
-            if (position.Count % 3 == 1)
-            {
-                this.image.SetPixel(x, y, Color.FromArgb(position[position.Count], rand.Next(255), rand.Next(255)));
-                y++;
-            }
-            else if (position.Count % 3 == 2)
-            {
-                this.image.SetPixel(x, y, Color.FromArgb(position[position.Count - 1], position[position.Count], rand.Next(255)));
                 y++;
             }
             this.image.SetPixel(x, y, Color.FromArgb(Convert.ToInt32('E'), Convert.ToInt32('N'), Convert.ToInt32('D')));
@@ -82,7 +72,7 @@ namespace Project
         {
             int offset = 0;
             bool done = false;
-            while (!done)
+            while (true)
             {
                 for (int x = 0; x < this.image.Width; x++)
                 {
@@ -91,18 +81,11 @@ namespace Project
                         if (this.image.GetPixel(x, y).R == lettre + offset)
                         {
                             this.message.set_position(x, y, offset);
-                            done = true;
+                            return;
                         }
-                        if (done)
-                        {
-                            break;
-                        }
-                    }
-                    if (done)
-                    {
-                        break;
                     }
                 }
+                offset++;
             }
         }
 
@@ -142,11 +125,17 @@ namespace Project
             while (!done)
             {
                 // get pixel
-                message += this.image.GetPixel((int)this.image.GetPixel(x, y).R, (int)this.image.GetPixel(x, y).G).R + +(int)this.image.GetPixel(x, y).B;
-                y++;
                 if (Convert.ToChar((int)this.image.GetPixel(x, y).R) == 'E' && Convert.ToChar((int)this.image.GetPixel(x, y).G) == 'N' && Convert.ToChar((int)this.image.GetPixel(x, y).B) == 'D')
                 {
                     done = true;
+                } else
+                {
+                    int r = (int)this.image.GetPixel(x, y).R;
+                    int g = (int)this.image.GetPixel(x, y).G;
+                    int b = (int)this.image.GetPixel(x, y).B;
+                    int car = this.image.GetPixel((int)this.image.GetPixel(x, y).R, (int)this.image.GetPixel(x, y).G).R;
+                    message += Convert.ToChar(this.image.GetPixel((int)this.image.GetPixel(x, y).R, (int)this.image.GetPixel(x, y).G).R + (int)this.image.GetPixel(x, y).B) + ", ";
+                    y++;
                 }
             }
             return message;

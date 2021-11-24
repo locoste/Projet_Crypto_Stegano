@@ -74,7 +74,6 @@ namespace Project
                 {
                     this.code_carac.Text += pos.ToString() + " ";
                 }
-                this.code_carac.Text += ", (" + bmimage.get_image().Width + ", " + bmimage.get_image().Height + ")";
             }
         }
 
