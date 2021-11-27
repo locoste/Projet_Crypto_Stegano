@@ -19,7 +19,12 @@ namespace Project
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.rsa = new RSA(Convert.ToInt32(this.nb_premier.Value));
+            do
+            {
+                this.rsa = new RSA(Convert.ToInt32(this.nb_premier.Value));
+            } while (this.rsa.get_n() < 256);
+
+            //this.rsa = new RSA(Convert.ToInt32(this.nb_premier.Value));
             this.public_key.Text = "(" + rsa.get_static_public_key()[0].ToString() + ", " + rsa.get_static_public_key()[1].ToString() + ")";
             this.private_key.Text = rsa.get_private_key().ToString();
         }

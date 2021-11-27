@@ -61,6 +61,11 @@ namespace Project
             return this.private_key;
         }
 
+        public int get_n()
+        {
+            return this.n;
+        }
+
         public void set_phi()
         {
             this.phi = (this.p - 1) * (this.q - 1);
@@ -109,11 +114,13 @@ namespace Project
             string encode_message = "";
             foreach(char lettre in message)
             {
-                int ascii = Convert.ToInt32(lettre);
-                BigInteger pow = BigInteger.Pow(ascii, this.e);
+                //int ascii = Convert.ToInt32(lettre) - 31;
+                /*BigInteger pow = BigInteger.Pow(ascii, this.e);
                 BigInteger modulo = pow % this.n;
-                encode_message += modulo.ToString();
+                encode_message += modulo.ToString();*/
+                encode_message += BigInteger.ModPow(Convert.ToInt32(lettre) - 31, this.e,this.n).ToString();
                 encode_message += ",";
+                
             }
             encode_message = encode_message.Remove(encode_message.Length - 1);
             return encode_message;
@@ -125,11 +132,12 @@ namespace Project
             string[] subs = message.Split(',');
             foreach (string code in subs)
             {
-                int ascii = int.Parse(code);
-                BigInteger pow = BigInteger.Pow(ascii, this.e);
-                BigInteger modulo = pow % this.n;
-                char ascii_char = Convert.ToChar((int)modulo);
-                decode_message += ascii_char;
+                //int ascii = int.Parse(code);
+                //BigInteger pow = BigInteger.Pow(ascii, this.e);
+                //BigInteger modulo = pow % this.n;
+                //int ascii = (int)BigInteger.ModPow(int.Parse(code), this.private_key, this.n);
+                decode_message += Convert.ToChar((int)BigInteger.ModPow(int.Parse(code), this.private_key, this.n) + 31);
+                //decode_message += ascii_char;
             }
             return decode_message;
         }
