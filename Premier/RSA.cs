@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace Project
@@ -11,7 +12,8 @@ namespace Project
         private int q;
 
         private int n;
-        private int fi;
+        private int phi;
+        private int e;
 
         private int private_key;
 
@@ -37,7 +39,7 @@ namespace Project
 
 
             this.n = this.p * this.q;
-            this.set_fi();
+            this.set_phi();
 
             this.public_key = this.get_public_key(list_premier);
         }
@@ -49,7 +51,7 @@ namespace Project
             while (reste != 1)
             {
                 d ++;
-                reste = (this.public_key[0] * d) % this.fi;
+                reste = (this.public_key[0] * d) % this.phi;
             }
             this.private_key = d;
         }
@@ -59,14 +61,14 @@ namespace Project
             return this.private_key;
         }
 
-        public void set_fi()
+        public void set_phi()
         {
-            this.fi = (this.p - 1) * (this.q - 1);
+            this.phi = (this.p - 1) * (this.q - 1);
         }
 
-        public int get_fi()
+        public int get_phi()
         {
-            return fi;
+            return phi;
         }
 
         public List<int> get_public_key(List<int> list_premier)
@@ -76,12 +78,13 @@ namespace Project
 
             foreach(int nb in list_premier)
             {
-                if (this.pgcd(nb, this.fi) == 1)
+                if (this.pgcd(nb, this.phi) == 1)
                 {
                     nb_pgcd.Add(nb);
                 }
             }
-            this.public_key.Add(nb_pgcd[rand.Next(nb_pgcd.Count)]);
+            this.e = nb_pgcd[rand.Next(nb_pgcd.Count)];
+            this.public_key.Add(this.e);
             this.public_key.Add(this.n);
             return public_key;
         }
@@ -106,7 +109,10 @@ namespace Project
             string encode_message = "";
             foreach(char lettre in message)
             {
-                encode_message += (Math.Pow(Convert.ToInt32(lettre) - 31, this.public_key[0]) % this.public_key[1]).ToString();
+                int ascii = Convert.ToInt32(lettre);
+                BigInteger pow = BigInteger.Pow(ascii, this.e);
+                BigInteger modulo = pow % this.n;
+                encode_message += modulo.ToString();
                 encode_message += ",";
             }
             encode_message = encode_message.Remove(encode_message.Length - 1);
@@ -119,8 +125,11 @@ namespace Project
             string[] subs = message.Split(',');
             foreach (string code in subs)
             {
-                double code1 = Math.Pow(int.Parse(code), this.private_key) % this.public_key[1] + 31;
-                decode_message += Convert.ToChar((int)(Math.Pow(int.Parse(code), this.private_key) % this.public_key[1]) + 31);
+                int ascii = int.Parse(code);
+                BigInteger pow = BigInteger.Pow(ascii, this.e);
+                BigInteger modulo = pow % this.n;
+                char ascii_char = Convert.ToChar((int)modulo);
+                decode_message += ascii_char;
             }
             return decode_message;
         }

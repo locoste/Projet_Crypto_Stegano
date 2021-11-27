@@ -58,6 +58,24 @@ namespace Project
             this.image.SetPixel(x, y, Color.FromArgb(Convert.ToInt32('E'), Convert.ToInt32('N'), Convert.ToInt32('D')));
         }
 
+        private void hide_position_v2()
+        {
+            System.Drawing.Imaging.BitmapData bmpData = this.image.LockBits(new Rectangle(0, 0, this.image.Width, this.image.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite,
+            this.image.PixelFormat);
+
+            //IntPtr scan0 = bmpData.Scan0;
+            //bmpData.Scan0 += this.message.get_position().Count * sizeof(Int32) + 1;
+
+            List<int> position = this.get_position();
+
+
+
+            this.image.UnlockBits(bmpData);
+
+            //this.image.SetPixel(x, y, Color.FromArgb(Convert.ToInt32('E'), Convert.ToInt32('N'), Convert.ToInt32('D')));
+
+        }
+
         public void hide_message_better()
         {
             char[] charArr = this.message.get_message().ToCharArray();
@@ -130,10 +148,6 @@ namespace Project
                     done = true;
                 } else
                 {
-                    int r = (int)this.image.GetPixel(x, y).R;
-                    int g = (int)this.image.GetPixel(x, y).G;
-                    int b = (int)this.image.GetPixel(x, y).B;
-                    int car = this.image.GetPixel((int)this.image.GetPixel(x, y).R, (int)this.image.GetPixel(x, y).G).R;
                     message += Convert.ToChar(this.image.GetPixel((int)this.image.GetPixel(x, y).R, (int)this.image.GetPixel(x, y).G).R + (int)this.image.GetPixel(x, y).B) + ", ";
                     y++;
                 }
