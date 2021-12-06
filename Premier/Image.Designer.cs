@@ -39,6 +39,8 @@ namespace Project
             this.message = new System.Windows.Forms.Label();
             this.get_message = new System.Windows.Forms.Button();
             this.code_carac = new System.Windows.Forms.Label();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.save_image = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,7 +59,7 @@ namespace Project
             // 
             // get_image
             // 
-            this.get_image.Location = new System.Drawing.Point(45, 45);
+            this.get_image.Location = new System.Drawing.Point(45, 28);
             this.get_image.Name = "get_image";
             this.get_image.Size = new System.Drawing.Size(94, 29);
             this.get_image.TabIndex = 1;
@@ -92,7 +94,7 @@ namespace Project
             // 
             // hide_message
             // 
-            this.hide_message.Location = new System.Drawing.Point(490, 153);
+            this.hide_message.Location = new System.Drawing.Point(490, 144);
             this.hide_message.Name = "hide_message";
             this.hide_message.Size = new System.Drawing.Size(94, 29);
             this.hide_message.TabIndex = 5;
@@ -103,7 +105,7 @@ namespace Project
             // message
             // 
             this.message.AutoSize = true;
-            this.message.Location = new System.Drawing.Point(490, 315);
+            this.message.Location = new System.Drawing.Point(490, 329);
             this.message.Name = "message";
             this.message.Size = new System.Drawing.Size(67, 20);
             this.message.TabIndex = 6;
@@ -111,7 +113,7 @@ namespace Project
             // 
             // get_message
             // 
-            this.get_message.Location = new System.Drawing.Point(490, 270);
+            this.get_message.Location = new System.Drawing.Point(490, 283);
             this.get_message.Name = "get_message";
             this.get_message.Size = new System.Drawing.Size(134, 29);
             this.get_message.TabIndex = 7;
@@ -128,11 +130,24 @@ namespace Project
             this.code_carac.TabIndex = 8;
             this.code_carac.Text = "label2";
             // 
+            // save_image
+            // 
+            this.save_image.Location = new System.Drawing.Point(45, 80);
+            this.save_image.Name = "save_image";
+            this.save_image.Size = new System.Drawing.Size(94, 29);
+            this.save_image.TabIndex = 9;
+            this.save_image.Text = "Save Image";
+            this.save_image.UseVisualStyleBackColor = true;
+            this.save_image.Click += new System.EventHandler(this.save_image_Click);
+            // 
             // Image
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.save_image);
             this.Controls.Add(this.code_carac);
             this.Controls.Add(this.get_message);
             this.Controls.Add(this.message);
@@ -162,5 +177,7 @@ namespace Project
         private System.Windows.Forms.Label message;
         private System.Windows.Forms.Button get_message;
         private System.Windows.Forms.Label code_carac;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button save_image;
     }
 }

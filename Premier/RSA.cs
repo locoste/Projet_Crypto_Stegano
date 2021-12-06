@@ -114,13 +114,8 @@ namespace Project
             string encode_message = "";
             foreach(char lettre in message)
             {
-                //int ascii = Convert.ToInt32(lettre) - 31;
-                /*BigInteger pow = BigInteger.Pow(ascii, this.e);
-                BigInteger modulo = pow % this.n;
-                encode_message += modulo.ToString();*/
-                encode_message += BigInteger.ModPow(Convert.ToInt32(lettre) - 31, this.e,this.n).ToString();
+                encode_message += BigInteger.ModPow(Convert.ToInt32(lettre), this.e,this.n).ToString();
                 encode_message += ",";
-                
             }
             encode_message = encode_message.Remove(encode_message.Length - 1);
             return encode_message;
@@ -132,12 +127,7 @@ namespace Project
             string[] subs = message.Split(',');
             foreach (string code in subs)
             {
-                //int ascii = int.Parse(code);
-                //BigInteger pow = BigInteger.Pow(ascii, this.e);
-                //BigInteger modulo = pow % this.n;
-                //int ascii = (int)BigInteger.ModPow(int.Parse(code), this.private_key, this.n);
-                decode_message += Convert.ToChar((int)BigInteger.ModPow(int.Parse(code), this.private_key, this.n) + 31);
-                //decode_message += ascii_char;
+                decode_message += Convert.ToChar((int)BigInteger.ModPow(int.Parse(code), this.private_key, this.n));
             }
             return decode_message;
         }

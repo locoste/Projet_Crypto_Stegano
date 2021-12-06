@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -10,6 +11,8 @@ namespace Project
 {
     public partial class Image : Form
     {
+
+        private Bitmap encoded_image;
 
         public Image()
         {
@@ -34,7 +37,23 @@ namespace Project
 
                     this.pictureBox1.Image = image1;
 
+                    this.encoded_image = new Bitmap(image1);
+
                     this.set_layout_image(image1);
+
+                    using (StreamWriter sw = File.AppendText(@"C:\\Users\\louis\\OneDrive\\Documents\\Master2\\programmation\\pixel_image_message.txt"))
+                    {
+                        for (int j = 0; j < this.encoded_image.Height; j++)
+                        {
+                            string pixels = "";
+                            for (int i = 0; i < this.encoded_image.Width; i++)
+                            {
+                                pixels += this.encoded_image.GetPixel(i, j).A + ", " + this.encoded_image.GetPixel(i, j).R + ", " + this.encoded_image.GetPixel(i, j).G + ", " + this.encoded_image.GetPixel(i, j).B + "| ";
+                            }
+                            pixels += "END OF LINE| ";
+                            sw.Write(pixels);
+                        }
+                    }
                 }
             }
         }
@@ -67,7 +86,40 @@ namespace Project
 
                 bmimage.hide_message_better();
 
+                this.encoded_image = bmimage.get_image();
+
                 this.pictureBox1.Image = bmimage.get_image();
+
+                /* Bitmap image = bmimage.get_image();
+
+                 using (StreamWriter sw = File.AppendText(@"C:\\Users\\louis\\OneDrive\\Documents\\Master2\\programmation\\pixel.txt"))
+                 {
+                     for (int j = 0; j < image.Height; j++)
+                     {
+                         string pixels = "";
+                         for (int i = 0; i < image.Width; i++)
+                         {
+                             pixels += image.GetPixel(i, j).R + ", " + image.GetPixel(i, j).G + ", " + image.GetPixel(i, j).B + "|";
+                         }
+                         pixels += "END OF LINE";
+                         sw.Write(pixels);
+                     }
+                 }*/
+
+                System.Drawing.Bitmap image2 = this.encoded_image;
+                using (StreamWriter sw = File.AppendText(@"C:\\Users\\louis\\OneDrive\\Documents\\Master2\\programmation\\pixel2.txt"))
+                {
+                    for (int j = 0; j < image2.Height; j++)
+                    {
+                        string pixels = "";
+                        for (int i = 0; i < image2.Width; i++)
+                        {
+                            pixels += image2.GetPixel(i, j).A + ", " + image2.GetPixel(i, j).R + ", " + image2.GetPixel(i, j).G + ", " + image2.GetPixel(i, j).B + "| ";
+                        }
+                        pixels += "END OF LINE| ";
+                        sw.Write(pixels);
+                    }
+                }
 
                 this.code_carac.Text = "";
                 foreach(int pos in bmimage.get_position())
@@ -79,11 +131,29 @@ namespace Project
 
         private void get_message_Click(object sender, EventArgs e)
         {
-            BM_image bmimage = new BM_image(new Bitmap(this.pictureBox1.Image));
+            BM_image bmimage = new BM_image(this.encoded_image);
 
             string message = bmimage.search_message_better();
 
             this.message.Text = message;
+        }
+
+        private void save_image_Click(object sender, EventArgs e)
+        {
+            if (this.encoded_image != null)
+            {
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Filter = "Bitmap Image|*.bmp";
+
+                saveFileDialog1.RestoreDirectory = true;
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    FileStream fs = (FileStream)saveFileDialog1.OpenFile();
+                    this.encoded_image.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
+                    fs.Close();
+                }
+            }
         }
     }
 }

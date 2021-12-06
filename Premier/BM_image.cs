@@ -9,6 +9,7 @@ namespace Project
     {
         private Bitmap image;
         private Message message;
+        private RSA rsa;
 
         public BM_image(Bitmap image)
         {
@@ -18,43 +19,33 @@ namespace Project
         public void set_message(Message message)
         {
             this.message = message;
+            this.initialize_rsa();
         }
 
-        public void hide_message()
+        public void initialize_rsa()
         {
-            char[] charArr = this.message.get_message().ToCharArray();
-            for (int i = 2; i < charArr.Length; i += 3)
+            do
             {
-                this.change_byte(Convert.ToInt32(charArr[i - 2]), Convert.ToInt32(charArr[i - 1]), Convert.ToInt32(charArr[i]));
-            }
-            if (charArr.Length % 3 == 1)
-            {
-                this.change_byte(Convert.ToInt32(charArr[charArr.Length - 1]));
-            } else if (charArr.Length % 3 == 2)
-            {
-                this.change_byte(Convert.ToInt32(charArr[charArr.Length - 2]), Convert.ToInt32(charArr[charArr.Length - 1]));
-            }
-        }
+                this.rsa = new RSA(100);
+            } while (this.rsa.get_n() < 256 || this.rsa.get_n() > 512);
+        } 
 
         private void hide_position()
         {
-            System.Drawing.Imaging.BitmapData bmpData = this.image.LockBits(new Rectangle(0, 0, this.image.Width, this.image.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite,
-            this.image.PixelFormat);
-
-            bmpData.Stride -= 1;
-
-            this.image.UnlockBits(bmpData);
-
             List<int> position = this.get_position();
 
             int x = this.image.Width - 1;
             int y = 0;
             Random rand = new Random();
-            for (int i = 2; i < position.Count; i+=3)
+            for (int i = 3; i < position.Count; i+=4)
             {
-                this.image.SetPixel(x, y, Color.FromArgb(position[i - 2], position[i - 1], position[i]));
+                Color color = this.image.GetPixel(x, y);
+                this.image.SetPixel(x, y, Color.FromArgb(position[i], position[i - 3], position[i - 2], position[i - 1]));
+                Color color2 = this.image.GetPixel(x, y);
                 y++;
             }
+            this.image.SetPixel(x, y, Color.FromArgb((int)this.rsa.get_private_key() % 256, (int)Math.Truncate((decimal)this.rsa.get_private_key() / 256), (int)this.rsa.get_n() % 256, (int)Math.Truncate((decimal)this.rsa.get_n() / 256)));
+            y++;
             this.image.SetPixel(x, y, Color.FromArgb(Convert.ToInt32('E'), Convert.ToInt32('N'), Convert.ToInt32('D')));
         }
 
@@ -63,12 +54,19 @@ namespace Project
             System.Drawing.Imaging.BitmapData bmpData = this.image.LockBits(new Rectangle(0, 0, this.image.Width, this.image.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite,
             this.image.PixelFormat);
 
-            //IntPtr scan0 = bmpData.Scan0;
+            IntPtr scan0 = bmpData.Scan0;
             //bmpData.Scan0 += this.message.get_position().Count * sizeof(Int32) + 1;
 
+            int size = sizeof(int);
             List<int> position = this.get_position();
+/*
+            foreach(int pos in position)
+            {
+                bmpData.
+                scan0 += IntPtr.Add(scan0, pos * size);
+            }*/
 
-
+            //scan0 = IntPtr.Add(scan0, );
 
             this.image.UnlockBits(bmpData);
 
@@ -78,55 +76,44 @@ namespace Project
 
         public void hide_message_better()
         {
-            char[] charArr = this.message.get_message().ToCharArray();
-            foreach(char lettre in charArr)
+            string message_encode = this.encode_message();
+            string[] encode = message_encode.Split(',');
+            foreach (string code in encode)
             {
-                this.get_point_position(Convert.ToInt32(lettre));
+                this.get_point_position(int.Parse(code));
             }
             this.hide_position();
+
         }
 
         private void get_point_position(int lettre)
         {
-            int offset = 0;
-            bool done = false;
-            while (true)
+            int offset = Math.Max(0, lettre - 256);
+
+            for (int multi = 0; multi < 256; multi++)
             {
-                for (int x = 0; x < this.image.Width; x++)
+                while (offset < 256)
                 {
-                    for (int y = 0; y < this.image.Height; y++)
+                    for (int x = 0; x < 255; x++)
                     {
-                        if (this.image.GetPixel(x, y).R == lettre + offset)
+                        for (int y = 0; y < 255; y++)
                         {
-                            this.message.set_position(x, y, offset);
-                            return;
+                            int r = (int)this.image.GetPixel(x, y).R;
+                            if ((int)this.image.GetPixel(x, y).R + offset + (256 * multi) == lettre)
+                            {
+                                this.message.set_position(x, y, offset, multi);
+                                return;
+                            }
                         }
                     }
+                    offset++;
                 }
-                offset++;
             }
-        }
-
-        private void change_byte(int l1, int l2 = 0, int l3 = 0)
-        {
-            int x = 1078 % this.image.Width + message.get_position().Count / 3;
-            int y = 10;
-            this.image.SetPixel(x, y, Color.FromArgb(l1, l2, l3));
-            this.message.set_position(x, y, 0);
         }
 
         public List<int> get_position()
         {
-            return message.get_position();
-        }
-
-        public string search_message()
-        {
-            int x = 1078 % this.image.Width;
-            int y = 10;
-            Color pixel1 = this.image.GetPixel(x, y);
-            Color pixel2 = this.image.GetPixel(x+1, y);
-            return Convert.ToChar(pixel1.R).ToString()+ Convert.ToChar(pixel1.G).ToString()+ Convert.ToChar(pixel1.B).ToString() + Convert.ToChar(pixel2.R).ToString() + Convert.ToChar(pixel2.G).ToString() + Convert.ToChar(pixel2.B).ToString();
+            return this.message.get_position();
         }
 
         public Bitmap get_image()
@@ -140,19 +127,40 @@ namespace Project
             string message = "";
             int x = this.image.Width - 1;
             int y = 0;
+            int private_key = 0;
+            int n = 0;
             while (!done)
             {
-                // get pixel
-                if (Convert.ToChar((int)this.image.GetPixel(x, y).R) == 'E' && Convert.ToChar((int)this.image.GetPixel(x, y).G) == 'N' && Convert.ToChar((int)this.image.GetPixel(x, y).B) == 'D')
+                if (Convert.ToChar((int)this.image.GetPixel(x, y + 1).R) == 'E' && Convert.ToChar((int)this.image.GetPixel(x, y + 1).G) == 'N' && Convert.ToChar((int)this.image.GetPixel(x, y + 1).B) == 'D')
                 {
+                    private_key = (int)this.image.GetPixel(x, y).A + (int)this.image.GetPixel(x, y).R * 256;
+                    n = (int)this.image.GetPixel(x, y).G + (int)this.image.GetPixel(x, y).B * 256;
                     done = true;
-                } else
+                }
+                else
                 {
-                    message += Convert.ToChar(this.image.GetPixel((int)this.image.GetPixel(x, y).R, (int)this.image.GetPixel(x, y).G).R + (int)this.image.GetPixel(x, y).B) + ", ";
+                    int r1 = this.image.GetPixel(x, y).R;
+                    int g1 = this.image.GetPixel(x, y).G;
+                    int r = this.image.GetPixel(r1, g1).R;
+                    int a = this.image.GetPixel(x, y).A;
+                    int b = this.image.GetPixel(x, y).B;
+                    message += (r + 256 * a + b) + ",";
                     y++;
                 }
             }
-            return message;
+            message = message.Remove(message.Length - 1);
+            return this.decode_message(message, private_key, n);
+        }
+
+        private string encode_message()
+        {
+            return this.rsa.encode_message(this.message.get_message());
+        }
+
+        private string decode_message(string message, int private_key, int n)
+        {
+            RSA_decode rsa_decode = new RSA_decode(private_key, n);
+            return rsa_decode.decode_message(message);
         }
     }
 }
