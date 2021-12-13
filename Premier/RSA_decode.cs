@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Project
 {
-    class RSA_decode
+    class RSA_decode:RSA
     {
         private int n;
         private int private_key;
