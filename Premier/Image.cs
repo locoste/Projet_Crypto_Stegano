@@ -150,7 +150,15 @@ namespace Project
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     FileStream fs = (FileStream)saveFileDialog1.OpenFile();
-                    this.encoded_image.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
+                    //Bitmap image_to_save = new Bitmap(this.encoded_image, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    Bitmap clone = new Bitmap(this.encoded_image.Width, this.encoded_image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                    using (Graphics gr = Graphics.FromImage(clone))
+                    {
+                        gr.DrawImage(this.encoded_image, new Rectangle(0, 0, clone.Width, clone.Height));
+                    }
+                    clone.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
+                    //this.encoded_image.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
                     fs.Close();
                 }
             }

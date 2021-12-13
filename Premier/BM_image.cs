@@ -39,39 +39,42 @@ namespace Project
             Random rand = new Random();
             for (int i = 3; i < position.Count; i+=4)
             {
-                Color color = this.image.GetPixel(x, y);
-                this.image.SetPixel(x, y, Color.FromArgb(position[i], position[i - 3], position[i - 2], position[i - 1]));
-                Color color2 = this.image.GetPixel(x, y);
+                this.image.SetPixel(x, y, Color.FromArgb(position[i - 3], position[i - 2], this.image.GetPixel(x, y).B));
+                this.image.SetPixel(0, this.image.Height - 1 - y, Color.FromArgb(position[i - 1], position[i], this.image.GetPixel(0, this.image.Height - 1 - y).B));
                 y++;
             }
-            this.image.SetPixel(x, y, Color.FromArgb((int)this.rsa.get_private_key() % 256, (int)Math.Truncate((decimal)this.rsa.get_private_key() / 256), (int)this.rsa.get_n() % 256, (int)Math.Truncate((decimal)this.rsa.get_n() / 256)));
+            this.image.SetPixel(x, y, Color.FromArgb((int)this.rsa.get_private_key() % 256, (int)Math.Truncate((decimal)this.rsa.get_private_key() / 256), this.image.GetPixel(x, y).B));
+            this.image.SetPixel(0, this.image.Height - 1 - y, Color.FromArgb(this.image.GetPixel(0, this.image.Height - 1 - y).R, (int)this.rsa.get_n() % 256, (int)Math.Truncate((decimal)this.rsa.get_n() / 256)));
             y++;
             this.image.SetPixel(x, y, Color.FromArgb(Convert.ToInt32('E'), Convert.ToInt32('N'), Convert.ToInt32('D')));
+            //hide_position_v2();
         }
 
         private void hide_position_v2()
         {
-            System.Drawing.Imaging.BitmapData bmpData = this.image.LockBits(new Rectangle(0, 0, this.image.Width, this.image.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite,
-            this.image.PixelFormat);
-
-            IntPtr scan0 = bmpData.Scan0;
-            //bmpData.Scan0 += this.message.get_position().Count * sizeof(Int32) + 1;
-
-            int size = sizeof(int);
+            int x = 0;
+            int y = 0;
             List<int> position = this.get_position();
-/*
-            foreach(int pos in position)
+            string binary_position = "";
+            for(int i = 3; i<position.Count; i += 4)
             {
-                bmpData.
-                scan0 += IntPtr.Add(scan0, pos * size);
-            }*/
-
-            //scan0 = IntPtr.Add(scan0, );
-
-            this.image.UnlockBits(bmpData);
-
+                binary_position += ConvertToByteArray(position[i - 3].ToString(), Encoding.ASCII).ToString();
+                binary_position += ConvertToByteArray(",", Encoding.ASCII).ToString();
+                binary_position += ConvertToByteArray(position[i - 2].ToString(), Encoding.ASCII).ToString();
+                binary_position += ConvertToByteArray(",", Encoding.ASCII).ToString();
+                binary_position += ConvertToByteArray(position[i - 1].ToString(), Encoding.ASCII).ToString();
+                binary_position += ConvertToByteArray(",", Encoding.ASCII).ToString();
+                binary_position += ConvertToByteArray(position[i].ToString(), Encoding.ASCII).ToString();
+                binary_position += ConvertToByteArray("E", Encoding.ASCII).ToString();
+                y++;
+            }
             //this.image.SetPixel(x, y, Color.FromArgb(Convert.ToInt32('E'), Convert.ToInt32('N'), Convert.ToInt32('D')));
+             
+        }
 
+        public static byte[] ConvertToByteArray(string str, Encoding encoding)
+        {
+            return encoding.GetBytes(str);
         }
 
         public void hide_message_better()
@@ -88,10 +91,11 @@ namespace Project
 
         private void get_point_position(int lettre)
         {
-            int offset = Math.Max(0, lettre - 256);
+            //int offset = Math.Max(0, lettre - 256);
 
             for (int multi = 0; multi < 256; multi++)
             {
+                int offset = 0;
                 while (offset < 256)
                 {
                     for (int x = 0; x < 255; x++)
@@ -133,8 +137,8 @@ namespace Project
             {
                 if (Convert.ToChar((int)this.image.GetPixel(x, y + 1).R) == 'E' && Convert.ToChar((int)this.image.GetPixel(x, y + 1).G) == 'N' && Convert.ToChar((int)this.image.GetPixel(x, y + 1).B) == 'D')
                 {
-                    private_key = (int)this.image.GetPixel(x, y).A + (int)this.image.GetPixel(x, y).R * 256;
-                    n = (int)this.image.GetPixel(x, y).G + (int)this.image.GetPixel(x, y).B * 256;
+                    private_key = (int)this.image.GetPixel(x, y).R + (int)this.image.GetPixel(x, y).G * 256;
+                    n = (int)this.image.GetPixel(0, this.image.Height - 1 - y).G + (int)this.image.GetPixel(0, this.image.Height - 1 - y).B * 256;
                     done = true;
                 }
                 else
@@ -142,9 +146,9 @@ namespace Project
                     int r1 = this.image.GetPixel(x, y).R;
                     int g1 = this.image.GetPixel(x, y).G;
                     int r = this.image.GetPixel(r1, g1).R;
-                    int a = this.image.GetPixel(x, y).A;
-                    int b = this.image.GetPixel(x, y).B;
-                    message += (r + 256 * a + b) + ",";
+                    int a = this.image.GetPixel(0, this.image.Height - 1 - y).R;
+                    int b = this.image.GetPixel(0, this.image.Height - 1 - y).G;
+                    message += (r + 256 * b + a) + ",";
                     y++;
                 }
             }
