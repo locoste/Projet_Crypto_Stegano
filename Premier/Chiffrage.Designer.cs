@@ -45,8 +45,8 @@ namespace Project
             // 
             this.image_a_chiffrer.Location = new System.Drawing.Point(27, 89);
             this.image_a_chiffrer.Name = "image_a_chiffrer";
-            this.image_a_chiffrer.Size = new System.Drawing.Size(516, 429);
-            this.image_a_chiffrer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.image_a_chiffrer.Size = new System.Drawing.Size(602, 511);
+            this.image_a_chiffrer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.image_a_chiffrer.TabIndex = 0;
             this.image_a_chiffrer.TabStop = false;
             // 
@@ -74,7 +74,7 @@ namespace Project
             // 
             this.message_to_hide.AcceptsReturn = true;
             this.message_to_hide.AcceptsTab = true;
-            this.message_to_hide.Location = new System.Drawing.Point(562, 89);
+            this.message_to_hide.Location = new System.Drawing.Point(660, 89);
             this.message_to_hide.Multiline = true;
             this.message_to_hide.Name = "message_to_hide";
             this.message_to_hide.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -83,7 +83,7 @@ namespace Project
             // 
             // cacher_message
             // 
-            this.cacher_message.Location = new System.Drawing.Point(706, 327);
+            this.cacher_message.Location = new System.Drawing.Point(775, 309);
             this.cacher_message.Name = "cacher_message";
             this.cacher_message.Size = new System.Drawing.Size(135, 29);
             this.cacher_message.TabIndex = 4;
@@ -93,7 +93,7 @@ namespace Project
             // 
             // send_mail
             // 
-            this.send_mail.Location = new System.Drawing.Point(640, 408);
+            this.send_mail.Location = new System.Drawing.Point(751, 396);
             this.send_mail.Name = "send_mail";
             this.send_mail.Size = new System.Drawing.Size(142, 78);
             this.send_mail.TabIndex = 5;
@@ -107,7 +107,7 @@ namespace Project
             // 
             // get_txt_button
             // 
-            this.get_txt_button.Location = new System.Drawing.Point(682, 34);
+            this.get_txt_button.Location = new System.Drawing.Point(751, 34);
             this.get_txt_button.Name = "get_txt_button";
             this.get_txt_button.Size = new System.Drawing.Size(159, 29);
             this.get_txt_button.TabIndex = 6;
@@ -121,7 +121,7 @@ namespace Project
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(867, 523);
+            this.ClientSize = new System.Drawing.Size(965, 612);
             this.Controls.Add(this.get_txt_button);
             this.Controls.Add(this.send_mail);
             this.Controls.Add(this.cacher_message);

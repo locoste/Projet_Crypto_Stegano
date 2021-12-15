@@ -40,8 +40,8 @@ namespace Project
             // 
             this.Image_encode.Location = new System.Drawing.Point(12, 84);
             this.Image_encode.Name = "Image_encode";
-            this.Image_encode.Size = new System.Drawing.Size(397, 344);
-            this.Image_encode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.Image_encode.Size = new System.Drawing.Size(574, 472);
+            this.Image_encode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Image_encode.TabIndex = 0;
             this.Image_encode.TabStop = false;
             // 
@@ -57,7 +57,7 @@ namespace Project
             // 
             // dechiffrer_button
             // 
-            this.dechiffrer_button.Location = new System.Drawing.Point(526, 32);
+            this.dechiffrer_button.Location = new System.Drawing.Point(652, 46);
             this.dechiffrer_button.Name = "dechiffrer_button";
             this.dechiffrer_button.Size = new System.Drawing.Size(204, 29);
             this.dechiffrer_button.TabIndex = 2;
@@ -69,7 +69,7 @@ namespace Project
             // 
             this.message.AcceptsReturn = true;
             this.message.AcceptsTab = true;
-            this.message.Location = new System.Drawing.Point(480, 114);
+            this.message.Location = new System.Drawing.Point(607, 123);
             this.message.Multiline = true;
             this.message.Name = "message";
             this.message.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -82,7 +82,7 @@ namespace Project
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(933, 613);
             this.Controls.Add(this.message);
             this.Controls.Add(this.dechiffrer_button);
             this.Controls.Add(this.ouvrir_image);

@@ -20,6 +20,10 @@ namespace Project
 
         private static Premier premier;
 
+        /*
+         * <summary>Constructeur de la classe RSA_Encode. Celui-ci récupère une liste de nombre premier et initialise les clés public et privé.</summary>
+         * <param>int nb: la valeur maximum des chiffres premier</param>
+         */
         public RSA_Encode(int nb)
         {
             premier = Premier.getInstance();
@@ -28,6 +32,7 @@ namespace Project
             this.set_public_key();
             this.set_private_key();
         }
+
 
         public void set_public_key()
         {
@@ -43,6 +48,9 @@ namespace Project
             this.public_key = this.get_public_key(list_premier);
         }
 
+        /*
+         * <summary>Generate private key with public key values.</summary> 
+         */
         public void set_private_key()
         {
             int reste = 0;

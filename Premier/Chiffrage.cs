@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Projet;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,18 +12,26 @@ namespace Project
 {
     public partial class Chiffrage : Form
     {
-
+        // contient l'image bitmap à encoder.
         private Bitmap encoded_image;
+        private Boolean is_changed = false;
+
+        // Constructeur de la classe
         public Chiffrage()
         {
             InitializeComponent();
         }
 
+        /*
+         * <summary>Cette fonction récupère le message renseigné dans le champs "message_to_hide" et 
+         * cache le message dans l'image via la fonction hide_message() si l'utilisateur a renseigner un message et qu'il a charger une image.
+         * Si le message est trop grand pour l'image, une fenetre s'ouvre pour en informer l'utilisateur.</summary>
+         */
         private void cacher_message_Click(object sender, EventArgs e)
         {
             Message message = new Message(this.message_to_hide.Text);
 
-            if (this.image_a_chiffrer.Image != null)
+            if (this.image_a_chiffrer.Image != null && message.get_message() != "")
             {
                 Bitmap imagebmp = new Bitmap(this.image_a_chiffrer.Image);
                 Image_Encode img_encode = new Image_Encode(imagebmp);
@@ -35,14 +44,51 @@ namespace Project
 
                 this.image_a_chiffrer.Image = img_encode.get_image();
 
+                this.is_changed = true;
+
+            } else if (message.get_message().Length - 3 > this.image_a_chiffrer.Image.Height)
+            {
+                Message_Trop_Grand m_err = new Message_Trop_Grand();
+
+                m_err.ShowDialog();
+
+                if (m_err.DialogResult == DialogResult.OK)
+                {
+                    m_err.Close();
+                }
+            } 
+            else
+            {
+                Erreur_chiffrement err = new Erreur_chiffrement();
+
+                err.ShowDialog();
+
+                if (err.DialogResult == DialogResult.OK)
+                {
+                    err.Close();
+                }
             }
         }
 
+        /* 
+         * <summary>Appel la classe SendEmailForm pour afficher l'interface d'envoie de mail</summary>
+         */
         private void send_mail_Click(object sender, EventArgs e)
         {
+            if (this.is_changed)
+            {
+                string path = Directory.GetCurrentDirectory() + "\\image_encoded.bmp";
+                this.encoded_image.Save(path);
+                var sendemailform = new SendEmailForm(path);
 
+                sendemailform.ShowDialog();
+            }
         }
 
+        /* 
+         * <summary>Cette fonction est appellé pour charger une image dans l'application via l'explorateur Windows. 
+         * Une fois chargé, il affiche l'image dans l'interface et la sauvegarde dans l'attribut "encoded_image" de la classe.</summary>
+         */
         private void charger_image_Click(object sender, EventArgs e)
         {
             var filePath = string.Empty;
@@ -58,10 +104,15 @@ namespace Project
                     this.image_a_chiffrer.Image = image1;
 
                     this.encoded_image = new Bitmap(image1);
+
+                    this.is_changed = false;
                 }
             }
         }
 
+        /* 
+         * <summary>Cette fonction est appellé pour sauvegarder l'image sur l'ordinateur de l'utilisateur via l'explorateur Windows</summary>
+         */
         private void save_image_Click(object sender, EventArgs e)
         {
             if (this.encoded_image != null)
@@ -87,6 +138,10 @@ namespace Project
             }
         }
 
+        /* 
+         * <summary>Cette fonction est appellé pour charger un fichier texte qui contient le message à chiffrer et cacher dans l'image.
+         * Celui-ci est affiché dans le champs "message_to_hide" de l'interface.</summary>
+         */
         private void get_txt_button_Click(object sender, EventArgs e)
         {
             var filePath = string.Empty;

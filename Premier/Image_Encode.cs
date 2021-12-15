@@ -26,8 +26,8 @@ namespace Project
         {
             do
             {
-                this.rsa = new RSA_Encode(100);
-            } while (this.rsa.get_n() < 256 || this.rsa.get_n() > 512);
+                this.rsa = new RSA_Encode(256);
+            } while (this.rsa.get_n() < 256 || this.rsa.get_n() > 65280);
         }
 
         private void hide_position()
@@ -67,7 +67,7 @@ namespace Project
         {
             //int offset = Math.Max(0, lettre - 256);
 
-            for (int multi = 0; multi < 256; multi++)
+            for (int multi = (int)Math.Truncate((decimal)lettre / 256); multi < 256; multi++)
             {
                 int offset = 0;
                 while (offset < 256)
