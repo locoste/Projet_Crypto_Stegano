@@ -97,7 +97,7 @@ namespace Projet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 250);
+            this.ClientSize = new System.Drawing.Size(495, 250);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsername);

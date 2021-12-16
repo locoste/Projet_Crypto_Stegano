@@ -36,9 +36,11 @@ namespace Project
             // 
             // chiffrer
             // 
-            this.chiffrer.Location = new System.Drawing.Point(107, 106);
+            this.chiffrer.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.chiffrer.Location = new System.Drawing.Point(94, 80);
+            this.chiffrer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chiffrer.Name = "chiffrer";
-            this.chiffrer.Size = new System.Drawing.Size(230, 81);
+            this.chiffrer.Size = new System.Drawing.Size(201, 61);
             this.chiffrer.TabIndex = 0;
             this.chiffrer.Text = "Cacher message";
             this.chiffrer.UseVisualStyleBackColor = true;
@@ -46,9 +48,11 @@ namespace Project
             // 
             // dechiffrer
             // 
-            this.dechiffrer.Location = new System.Drawing.Point(107, 243);
+            this.dechiffrer.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.dechiffrer.Location = new System.Drawing.Point(94, 182);
+            this.dechiffrer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dechiffrer.Name = "dechiffrer";
-            this.dechiffrer.Size = new System.Drawing.Size(230, 91);
+            this.dechiffrer.Size = new System.Drawing.Size(201, 68);
             this.dechiffrer.TabIndex = 1;
             this.dechiffrer.Text = "Déchiffrer message";
             this.dechiffrer.UseVisualStyleBackColor = true;
@@ -58,20 +62,21 @@ namespace Project
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(12, 37);
+            this.label1.Location = new System.Drawing.Point(27, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(414, 28);
+            this.label1.Size = new System.Drawing.Size(335, 21);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Chiffrage dechiffrage RSA Stéganographie";
+            this.label1.Text = "Chiffrage Déchiffrage RSA Stéganographie";
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(443, 386);
+            this.ClientSize = new System.Drawing.Size(388, 290);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dechiffrer);
             this.Controls.Add(this.chiffrer);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Main";
             this.Text = "Main";
             this.ResumeLayout(false);

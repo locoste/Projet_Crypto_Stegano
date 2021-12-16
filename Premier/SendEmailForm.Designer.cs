@@ -140,6 +140,7 @@ namespace Projet
             this.pictureBox.Location = new System.Drawing.Point(162, 286);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(91, 60);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox.TabIndex = 10;
             this.pictureBox.TabStop = false;
             // 
