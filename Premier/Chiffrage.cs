@@ -103,7 +103,7 @@ namespace Project
                 {
                     if(this.path == Path.GetFullPath(saveFileDialog1.FileName))
                     {
-                        saveFileDialog1.FileName += "_1";
+                        saveFileDialog1.FileName = saveFileDialog1.FileName.Split(".")[0] + "_1" + saveFileDialog1.FileName.Split(".")[1];
                     }
                     FileStream fs = (FileStream)saveFileDialog1.OpenFile();
 
