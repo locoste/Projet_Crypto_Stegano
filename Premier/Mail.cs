@@ -95,7 +95,5 @@ namespace Projet
                 smtpClient.Disconnect(true);
             }
         }
-        
-        
     }
 }
