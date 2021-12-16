@@ -8,7 +8,7 @@ namespace Project
     public partial class Chiffrage : Form
     {
         // contient l'image bitmap à encoder.
-        private Bitmap encoded_image;
+        private Bitmap encoded_image = null;
         private Boolean is_saved = false;
         private string path;
 
@@ -73,37 +73,47 @@ namespace Project
          */
         private void send_mail_Click(object sender, EventArgs e)
         {
-            if (!this.is_saved)
+            if(this.encoded_image != null)
             {
-                save_image_bitmap();
+                if (!this.is_saved)
+                {
+                    save_image_bitmap();
+                  
+                }
+                if (this.is_saved)
+                {
+                    var sendemailform = new SendEmailForm(this.path);
+
+                    sendemailform.ShowDialog();
+                }
             }
-
-            var sendemailform = new SendEmailForm(this.path);
-
-            sendemailform.ShowDialog();
+            
         }
 
         private void save_image_bitmap()
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Bitmap Image|*.bmp";
-
-            saveFileDialog1.RestoreDirectory = true;
-
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            if(this.encoded_image != null)
             {
-                FileStream fs = (FileStream)saveFileDialog1.OpenFile();
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Filter = "Bitmap Image|*.bmp";
 
-                Bitmap clone = new Bitmap(this.encoded_image.Width, this.encoded_image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                saveFileDialog1.RestoreDirectory = true;
 
-                using (Graphics gr = Graphics.FromImage(clone))
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    gr.DrawImage(this.encoded_image, new Rectangle(0, 0, clone.Width, clone.Height));
+                    FileStream fs = (FileStream)saveFileDialog1.OpenFile();
+
+                    Bitmap clone = new Bitmap(this.encoded_image.Width, this.encoded_image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                    using (Graphics gr = Graphics.FromImage(clone))
+                    {
+                        gr.DrawImage(this.encoded_image, new Rectangle(0, 0, clone.Width, clone.Height));
+                    }
+                    clone.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
+                    this.path = Path.GetFullPath(saveFileDialog1.FileName);
+                    fs.Close();
+                    this.is_saved = true;
                 }
-                clone.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
-                this.path = Path.GetFullPath(saveFileDialog1.FileName);
-                fs.Close();
-                this.is_saved = true;
             }
         }
 
