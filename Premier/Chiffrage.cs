@@ -1,5 +1,4 @@
-﻿using Projet;
-using System;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -11,6 +10,7 @@ namespace Project
         // contient l'image bitmap à encoder.
         private Bitmap encoded_image;
         private Boolean is_changed = false;
+        private string path;
 
         // Constructeur de la classe
         public Chiffrage()
@@ -76,11 +76,34 @@ namespace Project
         {
             if (this.is_changed)
             {
-                string path = Directory.GetCurrentDirectory() + "\\image_encoded.bmp";
-                this.encoded_image.Save(path);
-                var sendemailform = new SendEmailForm(path);
+                save_image_bitmap();
+            }
 
-                sendemailform.ShowDialog();
+            var sendemailform = new SendEmailForm(this.path);
+
+            sendemailform.ShowDialog();
+        }
+
+        private void save_image_bitmap()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Bitmap Image|*.bmp";
+
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                FileStream fs = (FileStream)saveFileDialog1.OpenFile();
+
+                Bitmap clone = new Bitmap(this.encoded_image.Width, this.encoded_image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                using (Graphics gr = Graphics.FromImage(clone))
+                {
+                    gr.DrawImage(this.encoded_image, new Rectangle(0, 0, clone.Width, clone.Height));
+                }
+                clone.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
+                this.path = Path.GetFullPath(saveFileDialog1.FileName);
+                fs.Close();
             }
         }
 
@@ -116,24 +139,7 @@ namespace Project
         {
             if (this.encoded_image != null)
             {
-                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                saveFileDialog1.Filter = "Bitmap Image|*.bmp";
-
-                saveFileDialog1.RestoreDirectory = true;
-
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    FileStream fs = (FileStream)saveFileDialog1.OpenFile();
-
-                    Bitmap clone = new Bitmap(this.encoded_image.Width, this.encoded_image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-                    using (Graphics gr = Graphics.FromImage(clone))
-                    {
-                        gr.DrawImage(this.encoded_image, new Rectangle(0, 0, clone.Width, clone.Height));
-                    }
-                    clone.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
-                    fs.Close();
-                }
+                save_image_bitmap();
             }
         }
 

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Projet
+namespace Project
 {
     public partial class EmailCredentials : Form
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace Projet
+namespace Project
 {
     partial class EmailCredentials
     {

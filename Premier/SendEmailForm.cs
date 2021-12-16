@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Projet
+namespace Project
 {
     public partial class SendEmailForm : Form
     {

@@ -2,7 +2,7 @@ using System.IO;
 using MailKit.Net.Smtp;
 using MimeKit;
 
-namespace Projet
+namespace Project
 {
     //Classe pour l'envoi de mail contenant l'image avec le message chiffré
     public class Mail
