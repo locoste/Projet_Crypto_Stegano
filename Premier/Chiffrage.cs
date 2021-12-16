@@ -99,8 +99,12 @@ namespace Project
 
                 saveFileDialog1.RestoreDirectory = true;
 
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK && this.path != Path.GetFullPath(saveFileDialog1.FileName))
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
+                    if(this.path == Path.GetFullPath(saveFileDialog1.FileName))
+                    {
+                        saveFileDialog1.FileName += "_1";
+                    }
                     FileStream fs = (FileStream)saveFileDialog1.OpenFile();
 
                     Bitmap clone = new Bitmap(this.encoded_image.Width, this.encoded_image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
