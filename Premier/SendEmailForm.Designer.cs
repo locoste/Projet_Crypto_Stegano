@@ -47,6 +47,7 @@ namespace Projet
             this.rbGmail = new System.Windows.Forms.RadioButton();
             this.rbOrange = new System.Windows.Forms.RadioButton();
             this.lblClientMail = new System.Windows.Forms.Label();
+            this.lblError = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,7 +55,7 @@ namespace Projet
             // 
             this.txtSrcName.Location = new System.Drawing.Point(162, 30);
             this.txtSrcName.Name = "txtSrcName";
-            this.txtSrcName.Size = new System.Drawing.Size(253, 23);
+            this.txtSrcName.Size = new System.Drawing.Size(279, 23);
             this.txtSrcName.TabIndex = 0;
             // 
             // lblNomSrc
@@ -81,7 +82,7 @@ namespace Projet
             // 
             this.txtSrcEmail.Location = new System.Drawing.Point(162, 69);
             this.txtSrcEmail.Name = "txtSrcEmail";
-            this.txtSrcEmail.Size = new System.Drawing.Size(253, 23);
+            this.txtSrcEmail.Size = new System.Drawing.Size(279, 23);
             this.txtSrcEmail.TabIndex = 3;
             // 
             // lblNameDest
@@ -108,21 +109,21 @@ namespace Projet
             // 
             this.txtDstName.Location = new System.Drawing.Point(162, 111);
             this.txtDstName.Name = "txtDstName";
-            this.txtDstName.Size = new System.Drawing.Size(253, 23);
+            this.txtDstName.Size = new System.Drawing.Size(279, 23);
             this.txtDstName.TabIndex = 6;
             // 
             // txtDstEmail
             // 
             this.txtDstEmail.Location = new System.Drawing.Point(162, 150);
             this.txtDstEmail.Name = "txtDstEmail";
-            this.txtDstEmail.Size = new System.Drawing.Size(253, 23);
+            this.txtDstEmail.Size = new System.Drawing.Size(279, 23);
             this.txtDstEmail.TabIndex = 7;
             // 
             // txtSubject
             // 
             this.txtSubject.Location = new System.Drawing.Point(69, 199);
             this.txtSubject.Name = "txtSubject";
-            this.txtSubject.Size = new System.Drawing.Size(346, 23);
+            this.txtSubject.Size = new System.Drawing.Size(372, 23);
             this.txtSubject.TabIndex = 8;
             // 
             // lblSubject
@@ -172,13 +173,13 @@ namespace Projet
             this.txtContent.Location = new System.Drawing.Point(162, 366);
             this.txtContent.Multiline = true;
             this.txtContent.Name = "txtContent";
-            this.txtContent.Size = new System.Drawing.Size(253, 189);
+            this.txtContent.Size = new System.Drawing.Size(279, 189);
             this.txtContent.TabIndex = 13;
             // 
             // btnSend
             // 
             this.btnSend.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnSend.Location = new System.Drawing.Point(446, 14);
+            this.btnSend.Location = new System.Drawing.Point(468, 14);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(83, 39);
             this.btnSend.TabIndex = 14;
@@ -221,11 +222,21 @@ namespace Projet
             this.lblClientMail.TabIndex = 17;
             this.lblClientMail.Text = "Client Mail";
             // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblError.Location = new System.Drawing.Point(12, 567);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(0, 21);
+            this.lblError.TabIndex = 18;
+            // 
             // SendEmailForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 567);
+            this.ClientSize = new System.Drawing.Size(563, 597);
+            this.Controls.Add(this.lblError);
             this.Controls.Add(this.lblClientMail);
             this.Controls.Add(this.rbOrange);
             this.Controls.Add(this.rbGmail);
@@ -272,6 +283,7 @@ namespace Projet
         private System.Windows.Forms.RadioButton rbGmail;
         private System.Windows.Forms.RadioButton rbOrange;
         private System.Windows.Forms.Label lblClientMail;
+        private System.Windows.Forms.Label lblError;
     }
 }
 
