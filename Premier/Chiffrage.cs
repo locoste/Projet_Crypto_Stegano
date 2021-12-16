@@ -33,28 +33,31 @@ namespace Project
 
             if (this.image_a_chiffrer.Image != null && message.get_message() != "")
             {
-                Bitmap imagebmp = new Bitmap(this.image_a_chiffrer.Image);
-                Image_Encode img_encode = new Image_Encode(imagebmp);
-
-                img_encode.set_message(message);
-
-                img_encode.hide_message_better();
-
-                this.encoded_image = img_encode.get_image();
-
-                this.image_a_chiffrer.Image = img_encode.get_image();
-
-                this.is_changed = true;
-
-            } else if (message.get_message().Length - 3 > this.image_a_chiffrer.Image.Height)
-            {
-                Message_Trop_Grand m_err = new Message_Trop_Grand();
-
-                m_err.ShowDialog();
-
-                if (m_err.DialogResult == DialogResult.OK)
+                if (message.get_message().Length - 3 > this.image_a_chiffrer.Image.Height)
                 {
-                    m_err.Close();
+                    Message_Trop_Grand m_err = new Message_Trop_Grand();
+
+                    m_err.ShowDialog();
+
+                    if (m_err.DialogResult == DialogResult.OK)
+                    {
+                        m_err.Close();
+                    }
+                }
+                else
+                {
+                    Bitmap imagebmp = new Bitmap(this.image_a_chiffrer.Image);
+                    Image_Encode img_encode = new Image_Encode(imagebmp);
+
+                    img_encode.set_message(message);
+
+                    img_encode.hide_message_better();
+
+                    this.encoded_image = img_encode.get_image();
+
+                    this.image_a_chiffrer.Image = img_encode.get_image();
+
+                    this.is_changed = true;
                 }
             } 
             else
