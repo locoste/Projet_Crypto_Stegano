@@ -52,6 +52,7 @@ namespace Project
                     this.encoded_image = img_encode.get_image();
 
                     this.image_a_chiffrer.Image = img_encode.get_image();
+                    this.is_saved = false;
                 }
             } 
             else
@@ -72,7 +73,7 @@ namespace Project
          */
         private void send_mail_Click(object sender, EventArgs e)
         {
-            if (this.is_saved)
+            if (!this.is_saved)
             {
                 save_image_bitmap();
             }
@@ -126,7 +127,7 @@ namespace Project
 
                     this.encoded_image = new Bitmap(image1);
 
-                    this.is_changed = false;
+                    this.is_saved = false;
                 }
             }
         }
