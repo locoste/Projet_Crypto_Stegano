@@ -9,7 +9,7 @@ namespace Project
     {
         // contient l'image bitmap à encoder.
         private Bitmap encoded_image;
-        private Boolean is_changed = false;
+        private Boolean is_saved = false;
         private string path;
 
         // Constructeur de la classe
@@ -52,8 +52,6 @@ namespace Project
                     this.encoded_image = img_encode.get_image();
 
                     this.image_a_chiffrer.Image = img_encode.get_image();
-
-                    this.is_changed = true;
                 }
             } 
             else
@@ -74,7 +72,7 @@ namespace Project
          */
         private void send_mail_Click(object sender, EventArgs e)
         {
-            if (this.is_changed)
+            if (this.is_saved)
             {
                 save_image_bitmap();
             }
@@ -104,6 +102,7 @@ namespace Project
                 clone.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
                 this.path = Path.GetFullPath(saveFileDialog1.FileName);
                 fs.Close();
+                this.is_saved = true;
             }
         }
 
