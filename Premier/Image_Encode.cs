@@ -16,12 +16,19 @@ namespace Project
             this.image = image;
         }
 
+        /*
+         * <summary>Fonction d'initialisation des messages et RSA</summary>
+         */
         public void set_message(Message message)
         {
             this.message = message;
             this.initialize_rsa();
         }
 
+        /*
+        * <summary>Tant que la valeur de n est inférieur à 256 ou supérieur à 65 280 on refait un calcul des clef RSA. Un n < 256 ne permetrra pas de décoder tous les caractères (ex: 251 (sqrt()). 
+        * Si n > 65 280, n ne pourra pas être caché dans l'image car la valeur sera trop grande</summary> 
+        */
         public void initialize_rsa()
         {
             do
@@ -30,6 +37,11 @@ namespace Project
             } while (this.rsa.get_n() < 256 || this.rsa.get_n() > 65280);
         }
 
+        /*
+        * <summary>Pour chaque caractère, on stock les coordonnées xp, yp du pixel correspondant en haut à droite de l'image aux coordonnées x=image.Width -1 et y.
+        * On stock ensuite la valeur de offset et multi en bas à gauche tel que x = 0 et y = image.Height - y. Une fois tous les caractères cachés, On stock la clef privé et le n 
+        * de la meme façon. On fini l'encodage avec END sur les valeurs RGB en haut à droite comme idetificateur de fin de message.</summary> 
+        */
         private void hide_position()
         {
             List<int> position = this.get_position();
@@ -47,10 +59,13 @@ namespace Project
             this.image.SetPixel(0, this.image.Height - 1 - y, Color.FromArgb(this.image.GetPixel(0, this.image.Height - 1 - y).R, (int)this.rsa.get_n() % 256, (int)Math.Truncate((decimal)this.rsa.get_n() / 256)));
             y++;
             this.image.SetPixel(x, y, Color.FromArgb(Convert.ToInt32('E'), Convert.ToInt32('N'), Convert.ToInt32('D')));
-            //hide_position_v2();
         }
 
 
+    /*
+     *<summary>Pour chaque caractère chiffré avec RSA, On recherche le pixel dans lequel sera contenu l'information. On fini par appelé la fonction qui va
+     *Caché les coordonnées et les offsets.</summary>
+     */
         public void hide_message_better()
         {
             string message_encode = this.encode_message();
@@ -63,10 +78,14 @@ namespace Project
 
         }
 
+        /*
+         * <summary>Etant donné un caractère chiffré on trouve une valeur de R d'un pixel tel que:
+         * lettre = R + offset + 256 * multi</summary>
+         */
         private void get_point_position(int lettre)
         {
-            //int offset = Math.Max(0, lettre - 256);
-
+            // On initialise multi à truncate(lettre / 256) pour éviter de tourner dans les boucles sachant que la valeur de lettre est supérieur 
+            // à 256
             for (int multi = (int)Math.Truncate((decimal)lettre / 256); multi < 256; multi++)
             {
                 int offset = 0;
@@ -89,16 +108,19 @@ namespace Project
             }
         }
 
+        // Renvoie les positions x, y , offset, multi de chaque lettre
         public List<int> get_position()
         {
             return this.message.get_position();
         }
 
+        // renvoie l'image
         public Bitmap get_image()
         {
             return this.image;
         }
 
+        // chiffre le message avec RSA pour le message de l'instance de la classe.
         private string encode_message()
         {
             return this.rsa.encode_message(this.message.get_message());
