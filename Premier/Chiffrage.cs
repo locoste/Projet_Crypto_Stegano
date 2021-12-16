@@ -99,7 +99,7 @@ namespace Project
 
                 saveFileDialog1.RestoreDirectory = true;
 
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK && this.path != Path.GetFullPath(saveFileDialog1.FileName))
                 {
                     FileStream fs = (FileStream)saveFileDialog1.OpenFile();
 
@@ -138,6 +138,8 @@ namespace Project
                     this.encoded_image = new Bitmap(image1);
 
                     this.is_saved = false;
+
+                    this.path = filePath;
                 }
             }
         }
