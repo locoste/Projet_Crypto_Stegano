@@ -38,18 +38,21 @@ namespace Project
             // 
             // Image_encode
             // 
-            this.Image_encode.Location = new System.Drawing.Point(12, 84);
+            this.Image_encode.Location = new System.Drawing.Point(18, 66);
+            this.Image_encode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Image_encode.Name = "Image_encode";
-            this.Image_encode.Size = new System.Drawing.Size(574, 472);
+            this.Image_encode.Size = new System.Drawing.Size(502, 354);
             this.Image_encode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Image_encode.TabIndex = 0;
             this.Image_encode.TabStop = false;
             // 
             // ouvrir_image
             // 
-            this.ouvrir_image.Location = new System.Drawing.Point(12, 32);
+            this.ouvrir_image.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ouvrir_image.Location = new System.Drawing.Point(33, 20);
+            this.ouvrir_image.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ouvrir_image.Name = "ouvrir_image";
-            this.ouvrir_image.Size = new System.Drawing.Size(129, 29);
+            this.ouvrir_image.Size = new System.Drawing.Size(113, 33);
             this.ouvrir_image.TabIndex = 1;
             this.ouvrir_image.Text = "Ouvrir image";
             this.ouvrir_image.UseVisualStyleBackColor = true;
@@ -57,9 +60,11 @@ namespace Project
             // 
             // dechiffrer_button
             // 
-            this.dechiffrer_button.Location = new System.Drawing.Point(652, 46);
+            this.dechiffrer_button.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.dechiffrer_button.Location = new System.Drawing.Point(590, 227);
+            this.dechiffrer_button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dechiffrer_button.Name = "dechiffrer_button";
-            this.dechiffrer_button.Size = new System.Drawing.Size(204, 29);
+            this.dechiffrer_button.Size = new System.Drawing.Size(178, 33);
             this.dechiffrer_button.TabIndex = 2;
             this.dechiffrer_button.Text = "Dechiffrer message";
             this.dechiffrer_button.UseVisualStyleBackColor = true;
@@ -69,24 +74,26 @@ namespace Project
             // 
             this.message.AcceptsReturn = true;
             this.message.AcceptsTab = true;
-            this.message.Location = new System.Drawing.Point(607, 123);
+            this.message.Location = new System.Drawing.Point(553, 89);
+            this.message.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.message.Multiline = true;
             this.message.Name = "message";
             this.message.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.message.Size = new System.Drawing.Size(288, 155);
+            this.message.Size = new System.Drawing.Size(252, 117);
             this.message.TabIndex = 3;
             // 
             // Dechiffrer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(933, 613);
+            this.ClientSize = new System.Drawing.Size(831, 460);
             this.Controls.Add(this.message);
             this.Controls.Add(this.dechiffrer_button);
             this.Controls.Add(this.ouvrir_image);
             this.Controls.Add(this.Image_encode);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Dechiffrer";
             this.Text = "Dechiffrer";
             ((System.ComponentModel.ISupportInitialize)(this.Image_encode)).EndInit();
