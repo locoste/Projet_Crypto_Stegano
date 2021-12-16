@@ -33,7 +33,10 @@ namespace Project
             this.set_private_key();
         }
 
-
+        /*
+        * <summary>Fonction de génération de clef publique. On selctionne aléatoirement p et q dans la liste de nombre premier. On calcul n tel que n = q*p. On fini par appeler la fonction set_phi() pour 
+        * calculer phi. </summary> 
+        */
         public void set_public_key()
         {
             List<int> list_premier = premier.get_premier();
@@ -49,7 +52,7 @@ namespace Project
         }
 
         /*
-         * <summary>Generate private key with public key values.</summary> 
+         * <summary>Generate private key with public key values. Il faut trouver une valeur de d tel que e * d % phi = 1 </summary> 
          */
         public void set_private_key()
         {
@@ -63,26 +66,42 @@ namespace Project
             this.private_key = d;
         }
 
+        /*
+        * <summary>Fonction getter pour la clef privé</summary> 
+        */
         public long get_private_key()
         {
             return this.private_key;
         }
 
+        /*
+        * <summary>Fonction getter pour n</summary> 
+        */
         public int get_n()
         {
             return this.n;
         }
 
+        /*
+        * <summary>Fonction setter de phi tel que phi = (p-1) * (q-1)</summary> 
+        */
         public void set_phi()
         {
             this.phi = (this.p - 1) * (this.q - 1);
         }
 
+        /*
+        * <summary>Fonction getter pour phi</summary> 
+        */
         public int get_phi()
         {
             return phi;
         }
 
+        /*
+        * <summary>Initialisation de la clef public. Pour cela on va selectionner un nombre premier étant le plus grand diviseur commun avec phi</summary>
+        * <param>List<int> list_premier: liste de nombre premier</param>
+        */
         public List<int> get_public_key(List<int> list_premier)
         {
             List<int> nb_pgcd = new List<int>();
@@ -101,11 +120,19 @@ namespace Project
             return public_key;
         }
 
+        /*
+        * <summary>Fonction getter pour la clef public</summary> 
+        */
         public List<int> get_static_public_key()
         {
             return this.public_key;
         }
 
+        /*
+        * <summary>Fonction PGCD récursive. </summary>
+        * <param>int a: nombre a</param>
+        * <param>int b: nombre b</param>
+        */
         public int pgcd(int a, int b)
         {
             int temp = a % b;
@@ -116,6 +143,10 @@ namespace Project
             return pgcd(b, temp);
         }
 
+        /*
+        * <summary>Fonction d'encodage. Chaque lettre sera encodé selon l'équation: C = M^e mod N.</summary> 
+        * <param>string message: le message à encoder</param>
+        */
         public string encode_message(String message)
         {
             string encode_message = "";
@@ -124,6 +155,7 @@ namespace Project
                 encode_message += BigInteger.ModPow(Convert.ToInt32(lettre), this.e, this.n).ToString();
                 encode_message += ",";
             }
+            // On retire la dernière virgule sinon l'appli va essayé de décoder une chaine vide.
             encode_message = encode_message.Remove(encode_message.Length - 1);
             return encode_message;
         }
